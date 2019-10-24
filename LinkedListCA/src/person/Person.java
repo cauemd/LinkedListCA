@@ -20,5 +20,41 @@ public class Person {
 		this.passport = passport;
 		this.priority = priority;
 	}
+	
+	/*
+	 *Returns the person's first name attribute.
+	 *
+	 * @see DoublyLinkedList
+	 */
+	public String getFName() {
+		return this.fName;
+	}
+	
+	/*
+	 *Returns the person's last name attribute.
+	 *
+	 * @see DoublyLinkedList
+	 */
+	public String getLName() {
+		return this.lName;
+	}
+
+	/*
+	 *Returns the person's passport attribute.
+	 *
+	 * @see DoublyLinkedList
+	 */
+	public String getPassport() {
+		return this.passport;
+	}
+
+	/*
+	 *Returns the person's priority attribute.
+	 *
+	 * @see DoublyLinkedList
+	 */
+	public int getPriority() {
+		return this.priority;
+	}
 
 }
