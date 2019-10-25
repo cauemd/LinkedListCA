@@ -169,7 +169,6 @@ public class NewEntryView extends JFrame{
 		btnGroup.add(highRB);
 		btnGroup.add(mediumRB);
 		btnGroup.add(lowRB);
-		//btnGroup.clearSelection();
 
 		//creating buttons
 		JButton registerBtn = new JButton("Register");

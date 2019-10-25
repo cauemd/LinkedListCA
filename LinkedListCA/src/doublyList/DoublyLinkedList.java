@@ -35,15 +35,15 @@ public class DoublyLinkedList <E>{
 			this.last = node;
 			size++;
 			switch (node.getPersonPriority()) {
-				case 1:
-					this.lastHighPriority = node;
-					break;
-				case 2:
-					this.lastMediumPriority = node;
-					break;
+			case 1:
+				this.lastHighPriority = node;
+				break;
+			case 2:
+				this.lastMediumPriority = node;
+				break;
 			}
 			return;
-		//Calls respective method in case list is not empty
+			//Calls respective method in case list is not empty
 		} else {
 			switch (node.getPersonPriority()) {
 			case 1:
@@ -61,15 +61,76 @@ public class DoublyLinkedList <E>{
 
 
 	/*
-	 *Adds a medium priority node before the first low priority node. Also changes the references of both adjacent nodes.
+	 *Adds a high priority node in the right position. Also changes the references on both adjacent nodes.
+	 *
+	 * @see Node
+	 */
+	private void addingHighPriority(Node node) {
+		//in case there are no high priority nodes
+		if (this.lastHighPriority == null) {
+			node.setNext(this.first);
+			this.first.setPrevious(node);
+			this.first = node;
+
+		//in case there are other high priority nodes	
+		} else {
+			node.setNext(this.lastHighPriority.getNext());
+			node.setPrevious(this.lastHighPriority);
+			
+			//in case there are only high priority nodes on the list (node going to the back of the list)
+			if(this.lastHighPriority == this.last) {
+				this.lastHighPriority.setNext(node);
+				this.last = node;
+			//in case there are nodes with other priority
+			} else {
+				this.lastHighPriority.getNext().setPrevious(node);
+				this.lastHighPriority.setNext(node);
+			}
+		}
+		size++;
+		this.lastHighPriority = node;
+	}
+
+	/*
+	 *Adds a medium priority node in the right. Also changes the references on both adjacent nodes.
 	 *
 	 * @see Node
 	 */
 	private void addingMediumPriority(Node node) {
 		//in case there are no other medium or high priority nodes
-		if (this.lastMediumPriority == null) {
+		if (this.lastMediumPriority == null && this.lastHighPriority == null) {
+			this.first.setPrevious(node);
+			node.setNext(this.first);
+			this.first = node;
+
+		//in case there are no medium priority nodes, but there are high priority nodes 
+		} else if (this.lastMediumPriority == null) {
+			node.setNext(this.lastHighPriority.getNext());
+			node.setPrevious(this.lastHighPriority);
 			
+			//in case there are only high priority nodes (new node going to the end of the list)
+			if (this.lastHighPriority.getNext() == null) {
+				node.setPrevious(this.lastHighPriority);
+				this.last = node;
+			} else {
+				this.lastHighPriority.getNext().setPrevious(node);
+			}
+			this.lastHighPriority.setNext(node);
+			
+		//in case there are both medium and high priority nodes (doesn't matter if there are low priority nodes or note)
+		} else {
+			node.setNext(this.lastMediumPriority.getNext());
+			node.setPrevious(this.lastMediumPriority);
+			this.lastMediumPriority.setNext(node);
+			this.lastMediumPriority.getNext().setPrevious(node);
 		}
+
+		//verifying if the added node is the last one in the list
+		if (node.getNext() == null) {
+			this.last = node;
+		}
+		this.lastMediumPriority = node;
+		size++;
 	}
 
 	/*

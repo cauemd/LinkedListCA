@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 import frontPage.FrontPageController;
 import person.Person;
@@ -89,15 +90,22 @@ public class NewEntryController implements WindowListener, ActionListener {
 			view.setDayBox(month);
 		
 		//handling register button
-		}else if (e.getActionCommand().equals("register")) {
+		} else if (e.getActionCommand().equals("register")) {
 			//shows error msg if any field in the view is not filled, creates a new Person object otherwise
 			if (!view.isFilled()) {
 				view.getErrorLbl().setForeground(Color.RED);
 				view.getErrorLbl().setText("Please, complete all fields.");
-			}else {
+			} else {
+				JOptionPane.showMessageDialog(this.view, "Appointment complete! Reference number: "); 
 				Person citizen = new Person(view.getFName(), view.getLName(), view.getPassport(), view.getPriority());
+				this.view.dispose();
+				new FrontPageController();
 				
 			}
+		//cancel button	
+		} else {
+			this.view.dispose();
+			new FrontPageController();
 		}
 	}
 
