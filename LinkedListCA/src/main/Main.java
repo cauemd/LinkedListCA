@@ -16,7 +16,6 @@ public class Main {
 		// TODO Auto-generated method stub
 		DoublyLinkedList list = new DoublyLinkedList();
 		new FrontPageController(list);
-		//new DbConnector();
 	}
 
 }

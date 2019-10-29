@@ -4,6 +4,7 @@
  */
 package doublyList;
 
+import dbConnector.DbConnector;
 import person.Person;
 
 /*Class used as a Doubly LInked List structure for the Node objects. Considering that different nodes have different priorities, instead of keeping track of only
@@ -13,6 +14,7 @@ import person.Person;
 
 public class DoublyLinkedList {
 
+	
 	private int highCounter;
 	private int mediumCounter;
 	private int lowCounter;
@@ -22,9 +24,10 @@ public class DoublyLinkedList {
 	private Node lastMediumPriority;
 	private int size;
 
-	//Default constructor
+	//Constructs an list with all the entries on the database and puts them in order.
 	public DoublyLinkedList() {
-		this.size = 0;
+		DbConnector db = new DbConnector();
+		db.loadList(this);
 	}
 
 	/*
@@ -192,5 +195,18 @@ public class DoublyLinkedList {
 	public int getLowCounter() {
 		return lowCounter;
 	}
+	
+	public void setHighCounter(int highCounter) {
+		this.highCounter = highCounter;
+	}
+
+	public void setMediumCounter(int mediumCounter) {
+		this.mediumCounter = mediumCounter;
+	}
+
+	public void setLowCounter(int lowCounter) {
+		this.lowCounter = lowCounter;
+	}
+
 
 }

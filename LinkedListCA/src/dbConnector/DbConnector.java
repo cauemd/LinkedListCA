@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import doublyList.DoublyLinkedList;
 import person.Person;
 
 public class DbConnector {
@@ -58,7 +60,7 @@ public class DbConnector {
 	 */
 	public boolean insertNewPerson(Person person) {
 		PreparedStatement stmt = null;
-
+		
 		//verifying if user already exists
 		try {
 			String query = "SELECT * FROM appointments WHERE passport = ?;";
@@ -85,6 +87,45 @@ public class DbConnector {
 			return false;
 		}
 
+	}
+
+	/*
+	 *Gets the data from the appointments table from the MySQL database and adds it to a list, while counting the number of high, medium and low appointments
+	 *and setting the number to the list.
+	 *
+	 * @param 	list	the list that will receive the data from the database
+	 *
+	 * @see		DoublyLinkedList, Person
+	 */
+	public void loadList(DoublyLinkedList list) {
+		PreparedStatement stmt = null;
+		try {
+			//Getting data from database
+			String query = "SELECT * FROM appointments;";
+			stmt = conn.prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				int priority = rs.getInt("priority");
+				//increasing the total count of appointments
+				switch (priority) {
+					case 1:
+						list.setHighCounter(list.getHighCounter() + 1);
+						break;
+					case 2:
+						list.setMediumCounter(list.getMediumCounter() + 1);
+						break;
+					default:
+						list.setLowCounter(list.getLowCounter() + 1);
+				}
+				//increasing the priority 
+				Person person = new Person(rs.getString("fName"), rs.getString("lName"), rs.getString("passport"), priority, rs.getString("id"));
+				list.add(person);
+				System.out.println(person.getID());
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
