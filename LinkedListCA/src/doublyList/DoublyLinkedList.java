@@ -4,13 +4,18 @@
  */
 package doublyList;
 
+import person.Person;
+
 /*Class used as a Doubly LInked List structure for the Node objects. Considering that different nodes have different priorities, instead of keeping track of only
  * the first and last node, as a design choice the list will also keep track of the last node of both medium and high priority. This will increase efficiency 
  * when adding new nodes to the list, since there will be no need to iterate through the whole list to look for the right position.
  */
 
-public class DoublyLinkedList <E>{
+public class DoublyLinkedList {
 
+	private int highCounter;
+	private int mediumCounter;
+	private int lowCounter;
 	private Node first;
 	private Node last;
 	private Node lastHighPriority;
@@ -27,8 +32,10 @@ public class DoublyLinkedList <E>{
 	 *
 	 * @see Node, Person
 	 */
-	public void add(Node node) {
+	public void add(Person person) {
 
+		Node node = new Node(person);
+		
 		//if Linked List is empty, the added node will be first and last.
 		if (this.size == 0) {
 			this.first = node;
@@ -37,9 +44,14 @@ public class DoublyLinkedList <E>{
 			switch (node.getPersonPriority()) {
 			case 1:
 				this.lastHighPriority = node;
+				this.highCounter++;
 				break;
 			case 2:
 				this.lastMediumPriority = node;
+				this.mediumCounter++;
+				break;
+			default:
+				this.lowCounter++;
 				break;
 			}
 			return;
@@ -87,7 +99,8 @@ public class DoublyLinkedList <E>{
 				this.lastHighPriority.setNext(node);
 			}
 		}
-		size++;
+		this.highCounter++;
+		this.size++;
 		this.lastHighPriority = node;
 	}
 
@@ -129,6 +142,7 @@ public class DoublyLinkedList <E>{
 		if (node.getNext() == null) {
 			this.last = node;
 		}
+		this.mediumCounter++;
 		this.lastMediumPriority = node;
 		size++;
 	}
@@ -142,7 +156,8 @@ public class DoublyLinkedList <E>{
 		this.last.setNext(node);
 		node.setPrevious(this.last);
 		this.last = node;
-		size++;		
+		this.lowCounter++;
+		this.size++;		
 	}
 
 	/*
@@ -166,5 +181,16 @@ public class DoublyLinkedList <E>{
 		return null;
 	}
 
+	public int getHighCounter() {
+		return highCounter;
+	}
+
+	public int getMediumCounter() {
+		return mediumCounter;
+	}
+
+	public int getLowCounter() {
+		return lowCounter;
+	}
 
 }

@@ -12,18 +12,18 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import doublyList.DoublyLinkedList;
 import newEntry.NewEntryController;
 
 //Controller for the front page
 public class FrontPageController implements ActionListener, WindowListener {
 
-	private FrontPageModel model;
 	private FrontPageView view;
+	private DoublyLinkedList list;
 
-	public FrontPageController() {
-		this.model = new FrontPageModel();
+	public FrontPageController(DoublyLinkedList list) {
 		this.view = new FrontPageView(this);
-
+		this.list = list;
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class FrontPageController implements ActionListener, WindowListener {
 
 		//"New Entry" Button
 		if (e.getActionCommand().equals("newEntry")) {
-			new NewEntryController();
+			new NewEntryController(this.list);
 			this.view.dispose();
 		}
 

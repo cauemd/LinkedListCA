@@ -12,17 +12,21 @@ public class Node {
 	private Node previous;
 	private Person person;
 
-	//Class constructor, the "next" and "previous" parameters will receive null if the node is the last or first in the list.
-	public Node(Node next, Node previous, Person person) {
-		this.next = next;
-		this.previous = previous;
+	/*
+	 *Class constructor, receives only a Person object as argument. Next and Previous node defined by DoublyLinked class add method.
+	 *
+	 * @param	person A person object that will be added to the Linked List
+	 * @see 	DoublyLinkedList, Person
+	 */
+	public Node(Person person) {
 		this.person = person;
 	}
 
 	/*
 	 *Returns the reference to the next node in the Linked List. Returns null if it's the last node.
 	 *
-	 * @see DoublyLinkedList
+	 * @return	the next Node object in the Linked List.
+	 * @see		DoublyLinkedList
 	 */
 	public Node getNext() {
 		return this.next;
@@ -31,7 +35,8 @@ public class Node {
 	/*
 	 *Returns the reference to the previous node in the Linked List. Returns null if it's the first node.
 	 *
-	 * @see DoublyLinkedList
+	 * @return 	the previous Node object in the Linked List.
+	 * @see 	DoublyLinkedList
 	 */
 	public Node getPrevious() {
 		return this.previous;
@@ -40,7 +45,8 @@ public class Node {
 	/*
 	 *Returns the passport attribute of the Person being referenced in the Node.
 	 *
-	 * @see Person
+	 * @return 	a String containing the passport number from the Person object that this node holds reference to.
+	 * @see 	Person
 	 */
 	public String getPersonPassport() {
 		return this.person.getPassport();
@@ -49,7 +55,8 @@ public class Node {
 	/*
 	 *Returns the passport attribute of the Person being referenced in the Node.
 	 *
-	 * @see Person
+	 * @return	the priority of the appointment of the person that this node holds reference to.
+	 * @see 	Person
 	 */
 	public int getPersonPriority() {
 		return this.person.getPriority();
@@ -57,8 +64,9 @@ public class Node {
 
 	/*
 	 * Sets the node passed as argument as the next link to the node calling the method.
-	 *
-	 * @see DoublyLinkedList
+	 * 
+	 * @param	node	the node being assigned as in the next position from this node.
+	 * @see		DoublyLinkedList
 	 */
 	public void setNext(Node node) {
 		this.next = node;
@@ -68,7 +76,9 @@ public class Node {
 	/*
 	 * Sets the node passed as argument as the next link to the node calling the method.
 	 *
-	 * @see DoublyLinkedList
+	 * @param	node	the node being assigned as in the previous position from this node.
+	 *
+	 * @see 	DoublyLinkedList
 	 */
 	public void setPrevious(Node node) {
 		this.next = node;

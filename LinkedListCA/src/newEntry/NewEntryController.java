@@ -15,67 +15,70 @@ import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
+import doublyList.DoublyLinkedList;
 import frontPage.FrontPageController;
 import person.Person;
 
 //Controller for the New Entry view/model. Responsible for adding new entries to the system.
 public class NewEntryController implements WindowListener, ActionListener {
-	
+
 	private NewEntryView view;
 	private NewEntryModel model;
+	private DoublyLinkedList list;
 
-	public NewEntryController() {
-		this.model = new NewEntryModel();
+	public NewEntryController(DoublyLinkedList list) {
+		this.model = new NewEntryModel(this, list);
 		this.view = new NewEntryView(this);
+		this.list = list;
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
-		new FrontPageController();
+		new FrontPageController(list);
 		view.dispose();
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowActivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		//handling radio buttons
 		if (e.getActionCommand().equals("high")) {
 			this.view.setPriority(1);
@@ -83,29 +86,35 @@ public class NewEntryController implements WindowListener, ActionListener {
 			this.view.setPriority(2);
 		} else if (e.getActionCommand().equals("low")) {
 			this.view.setPriority(3);
-		
-		//changes number of entries in daybox according to selected month
+
+			//changes number of entries in daybox according to selected month
 		} else if (e.getActionCommand().equals("setDay")) {
 			String month = view.getMonth();
 			view.setDayBox(month);
-		
+
 		//handling register button
 		} else if (e.getActionCommand().equals("register")) {
 			//shows error msg if any field in the view is not filled, creates a new Person object otherwise
 			if (!view.isFilled()) {
 				view.getErrorLbl().setForeground(Color.RED);
 				view.getErrorLbl().setText("Please, complete all fields.");
+				//treating the data in the frame	
 			} else {
-				JOptionPane.showMessageDialog(this.view, "Appointment complete! Reference number: "); 
-				Person citizen = new Person(view.getFName(), view.getLName(), view.getPassport(), view.getPriority());
-				this.view.dispose();
-				new FrontPageController();
-				
+				Person person = model.newRegister(view.getFName(), view.getLName(), view.getPassport(), view.getPriority());
+				if(!this.model.registerInDatabase(person)) {		//triggered if there's already a register with the same passport in the database 
+					JOptionPane.showMessageDialog(this.view, "There is a register for this passport already!.",
+							"Double Entry.",  JOptionPane.ERROR_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(this.view, "Appointment complete! Reference number: " + person.getID()); 
+					list.add(person);
+					this.view.dispose();
+					new FrontPageController(this.list);
+				}
 			}
 		//cancel button	
 		} else {
 			this.view.dispose();
-			new FrontPageController();
+			new FrontPageController(this.list);
 		}
 	}
 
@@ -113,7 +122,8 @@ public class NewEntryController implements WindowListener, ActionListener {
 	 *Generates an array of Integer objects to be passed as argument used to populate the view's ComboBox related to the years.
 	 *This method generates an array of length 100 counting down from the current year.
 	 *
-	 * @see NewEntryView, Integer, Date
+	 * @return	an array of Integer with 100 numbers counting from the current year.
+	 * @see 	NewEntryView, Integer, Date
 	 */
 	public Integer[] generateYears() {
 		Integer[] array = new Integer[100];
@@ -128,7 +138,8 @@ public class NewEntryController implements WindowListener, ActionListener {
 	/*
 	 *Verifies if the year selected in the view's ComboBox is a leap year.
 	 *
-	 * @see NewEntryView
+	 * @param 	year	the year to get through the leap year check
+	 * @see		NewEntryView
 	 */
 	public boolean isLeapYear(int year) {
 		if (year % 4 == 0){
@@ -137,7 +148,7 @@ public class NewEntryController implements WindowListener, ActionListener {
 			return false;
 		}
 	}
-	
-	
-	
+
+
+
 }
