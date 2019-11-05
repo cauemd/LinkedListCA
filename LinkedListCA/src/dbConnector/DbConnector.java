@@ -60,7 +60,7 @@ public class DbConnector {
 	 */
 	public boolean insertNewPerson(Person person) {
 		PreparedStatement stmt = null;
-		
+
 		//verifying if user already exists
 		try {
 			String query = "SELECT * FROM appointments WHERE passport = ?;";
@@ -108,24 +108,48 @@ public class DbConnector {
 				int priority = rs.getInt("priority");
 				//increasing the total count of appointments
 				switch (priority) {
-					case 1:
-						list.setHighCounter(list.getHighCounter() + 1);
-						break;
-					case 2:
-						list.setMediumCounter(list.getMediumCounter() + 1);
-						break;
-					default:
-						list.setLowCounter(list.getLowCounter() + 1);
+				case 1:
+					list.setHighCounter(list.getHighCounter() + 1);
+					break;
+				case 2:
+					list.setMediumCounter(list.getMediumCounter() + 1);
+					break;
+				default:
+					list.setLowCounter(list.getLowCounter() + 1);
 				}
 				//increasing the priority 
 				Person person = new Person(rs.getString("fName"), rs.getString("lName"), rs.getString("passport"), priority, rs.getString("id"));
 				list.add(person);
-				System.out.println(person.getID());
 			}
-				
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/*
+	 *Removes a tuple from the database according to its ID.
+	 *
+	 * @param 	id	the id of the appointment that will be deleted.
+	 *
+	 * @see		DoublyLinkedList, Person, SearchPageModel
+	 */
+	public void removeEntryFromDB(String id) {
+		PreparedStatement stmt = null;
+
+		try {
+
+			//removing appointment from database
+			String query = "DELETE FROM appointments WHERE id = ?;";
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, id);
+			stmt.executeUpdate();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

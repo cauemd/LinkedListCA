@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import doublyList.DoublyLinkedList;
 import newEntry.NewEntryController;
+import searchPage.SearchPageController;
 
 //Controller for the front page
 public class FrontPageController implements ActionListener, WindowListener {
@@ -80,6 +81,9 @@ public class FrontPageController implements ActionListener, WindowListener {
 		//"New Entry" Button
 		if (e.getActionCommand().equals("newEntry")) {
 			new NewEntryController(this.list);
+			this.view.dispose();
+		} else if (e.getActionCommand().equals("checkInfo")){
+			new SearchPageController(this.list);
 			this.view.dispose();
 		}
 

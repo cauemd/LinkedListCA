@@ -43,26 +43,6 @@ public class Node {
 	}
 	
 	/*
-	 *Returns the passport attribute of the Person being referenced in the Node.
-	 *
-	 * @return 	a String containing the passport number from the Person object that this node holds reference to.
-	 * @see 	Person
-	 */
-	public String getPersonPassport() {
-		return this.person.getPassport();
-	}
-	
-	/*
-	 *Returns the passport attribute of the Person being referenced in the Node.
-	 *
-	 * @return	the priority of the appointment of the person that this node holds reference to.
-	 * @see 	Person
-	 */
-	public int getPersonPriority() {
-		return this.person.getPriority();
-	}
-
-	/*
 	 * Sets the node passed as argument as the next link to the node calling the method.
 	 * 
 	 * @param	node	the node being assigned as in the next position from this node.
@@ -81,7 +61,17 @@ public class Node {
 	 * @see 	DoublyLinkedList
 	 */
 	public void setPrevious(Node node) {
-		this.next = node;
+		this.previous = node;
 		
+	}
+	
+	/*
+	 *Returns the Person object being referenced in the Node.
+	 *
+	 * @return	a instance of the Person class.
+	 * @see 	Person
+	 */
+	public Person getPerson() {
+		return this.person;
 	}
 }

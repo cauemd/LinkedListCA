@@ -24,6 +24,8 @@ public class DoublyLinkedList {
 	private Node lastMediumPriority;
 	private int size;
 
+
+
 	//Constructs an list with all the entries on the database and puts them in order.
 	public DoublyLinkedList() {
 		DbConnector db = new DbConnector();
@@ -44,7 +46,7 @@ public class DoublyLinkedList {
 			this.first = node;
 			this.last = node;
 			size++;
-			switch (node.getPersonPriority()) {
+			switch (node.getPerson().getPriority()) {
 			case 1:
 				this.lastHighPriority = node;
 				this.highCounter++;
@@ -55,21 +57,19 @@ public class DoublyLinkedList {
 				break;
 			default:
 				this.lowCounter++;
-				break;
 			}
-			return;
-			//Calls respective method in case list is not empty
+
+		//Calls respective method in case list is not empty
 		} else {
-			switch (node.getPersonPriority()) {
+			switch (node.getPerson().getPriority()) {
 			case 1:
 				addingHighPriority(node);
 				break;
 			case 2:
 				addingMediumPriority(node);
 				break;
-			case 3:
+			default:
 				addingLowPriority(node);
-				break;
 			}
 		}
 	}
@@ -123,28 +123,23 @@ public class DoublyLinkedList {
 		} else if (this.lastMediumPriority == null) {
 			node.setNext(this.lastHighPriority.getNext());
 			node.setPrevious(this.lastHighPriority);
-			
-			//in case there are only high priority nodes (new node going to the end of the list)
-			if (this.lastHighPriority.getNext() == null) {
-				node.setPrevious(this.lastHighPriority);
-				this.last = node;
-			} else {
-				this.lastHighPriority.getNext().setPrevious(node);
-			}
 			this.lastHighPriority.setNext(node);
 			
-		//in case there are both medium and high priority nodes (doesn't matter if there are low priority nodes or note)
+		//in case there are both medium and high priority nodes (doesn't matter if there are low priority nodes or not)
 		} else {
 			node.setNext(this.lastMediumPriority.getNext());
 			node.setPrevious(this.lastMediumPriority);
 			this.lastMediumPriority.setNext(node);
-			this.lastMediumPriority.getNext().setPrevious(node);
+			node.getNext().setPrevious(node);
 		}
 
 		//verifying if the added node is the last one in the list
 		if (node.getNext() == null) {
 			this.last = node;
+		} else {
+			node.getNext().setPrevious(node);
 		}
+
 		this.mediumCounter++;
 		this.lastMediumPriority = node;
 		size++;
@@ -160,30 +155,34 @@ public class DoublyLinkedList {
 		node.setPrevious(this.last);
 		this.last = node;
 		this.lowCounter++;
-		this.size++;		
+		this.size++;	
+
 	}
 
-	/*
-	 *Iterates through the Linked List searching for a Node referencing a Person that has the same passport attribute as the String being passed as argument.
-	 *Returns null if the argument doesn't  match with any Node.
-	 *
-	 * @see DoublyLinkedList
-	 */
-	public Node searchPerson(String passport) {
-		Node temp = this.first;
-
-		do {
-			if (temp.getPersonPassport().equalsIgnoreCase(passport)) {
-				return temp;
-			} else {
-				temp = temp.getNext();
-			}
-
-		}while (temp != null);
-
-		return null;
+	public Node getFirstNode() {
+		return this.first;
+	}
+	
+	public void setFirstNode(Node node) {
+		this.first = node;
+	}
+	
+	public Node getLastNode() {
+		return this.last;
+	}
+	
+	public void setLastNode(Node node) {
+		this.last = node;
+	}
+	
+	public int getSize() {
+		return size;
 	}
 
+	public void setSize(int size) {
+		this.size = size;
+	}
+	
 	public int getHighCounter() {
 		return highCounter;
 	}
