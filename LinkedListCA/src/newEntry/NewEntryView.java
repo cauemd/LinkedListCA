@@ -228,20 +228,20 @@ public class NewEntryView extends JFrame{
 	 * 
 	 * @see NewEntryController
 	 */
-	public void setDayBox(String month) {
+	public void setDayBox(int month) {
 		dayCb.removeAllItems();
-		if (month.equals("January") || month.equals("March") || month.equals("May") || month.equals("July") ||
-				month.equals("August") || month.equals("October") || month.equals("December")){
+		if (month == 1 || month == 3 || month == 5 || month == 7 ||
+				month == 8 || month == 10 || month == 12){
 			for(int i=1;i<=31;i++){
 				dayCb.addItem(i);
 			}
 
-		} else if (month.equals("April") || month.equals("June") || month.equals("September") || month.equals("November")) {
+		} else if (month == 4 || month == 6 || month == 9 || month == 11) {
 			for(int i=1;i<=30;i++){
 				dayCb.addItem(i);
 			}
 
-			//Handling February
+		//Handling February
 		} else {
 
 			//checking if leap year
@@ -265,7 +265,7 @@ public class NewEntryView extends JFrame{
 	 * @see NewEntryController
 	 */
 	public boolean isFilled() {
-		if (this.fName.getText() == null || this.lName.getText() == null || this.passport.getText() == null || 
+		if (this.fName.getText().trim().length() == 0 || this.lName.getText().trim().length() == 0 || this.passport.getText().trim().length() == 0 || 
 				this.dayCb.getSelectedItem() == null || this.priorityLvl == 0) {
 			return false;
 		} else {
@@ -279,8 +279,8 @@ public class NewEntryView extends JFrame{
 	 *
 	 * @see JComboBox
 	 */
-	public String getMonth() {
-		return (String) monthCb.getSelectedItem();
+	public int getMonth() {
+		return monthCb.getSelectedIndex();
 	}
 	
 	/**

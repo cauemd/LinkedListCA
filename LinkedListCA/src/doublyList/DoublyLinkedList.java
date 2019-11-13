@@ -14,7 +14,7 @@ import person.Person;
 
 public class DoublyLinkedList {
 
-	
+
 	private int highCounter;
 	private int mediumCounter;
 	private int lowCounter;
@@ -26,7 +26,7 @@ public class DoublyLinkedList {
 
 
 
-	//Constructs an list with all the entries on the database and puts them in order.
+	//Constructs an list with all the entries on the database.
 	public DoublyLinkedList() {
 		DbConnector db = new DbConnector();
 		db.loadList(this);
@@ -59,7 +59,7 @@ public class DoublyLinkedList {
 				this.lowCounter++;
 			}
 
-		//Calls respective method in case list is not empty
+			//Calls respective method in case list is not empty
 		} else {
 			switch (node.getPerson().getPriority()) {
 			case 1:
@@ -87,16 +87,16 @@ public class DoublyLinkedList {
 			this.first.setPrevious(node);
 			this.first = node;
 
-		//in case there are other high priority nodes	
+			//in case there are other high priority nodes	
 		} else {
 			node.setNext(this.lastHighPriority.getNext());
 			node.setPrevious(this.lastHighPriority);
-			
+
 			//in case there are only high priority nodes on the list (node going to the back of the list)
 			if(this.lastHighPriority == this.last) {
 				this.lastHighPriority.setNext(node);
 				this.last = node;
-			//in case there are nodes with other priority
+				//in case there are nodes with other priority
 			} else {
 				this.lastHighPriority.getNext().setPrevious(node);
 				this.lastHighPriority.setNext(node);
@@ -119,18 +119,17 @@ public class DoublyLinkedList {
 			node.setNext(this.first);
 			this.first = node;
 
-		//in case there are no medium priority nodes, but there are high priority nodes 
+			//in case there are no medium priority nodes, but there are high priority nodes 
 		} else if (this.lastMediumPriority == null) {
 			node.setNext(this.lastHighPriority.getNext());
 			node.setPrevious(this.lastHighPriority);
 			this.lastHighPriority.setNext(node);
-			
+
 		//in case there are both medium and high priority nodes (doesn't matter if there are low priority nodes or not)
 		} else {
 			node.setNext(this.lastMediumPriority.getNext());
 			node.setPrevious(this.lastMediumPriority);
 			this.lastMediumPriority.setNext(node);
-			node.getNext().setPrevious(node);
 		}
 
 		//verifying if the added node is the last one in the list
@@ -162,19 +161,19 @@ public class DoublyLinkedList {
 	public Node getFirstNode() {
 		return this.first;
 	}
-	
+
 	public void setFirstNode(Node node) {
 		this.first = node;
 	}
-	
+
 	public Node getLastNode() {
 		return this.last;
 	}
-	
+
 	public void setLastNode(Node node) {
 		this.last = node;
 	}
-	
+
 	public int getSize() {
 		return size;
 	}
@@ -182,7 +181,7 @@ public class DoublyLinkedList {
 	public void setSize(int size) {
 		this.size = size;
 	}
-	
+
 	public int getHighCounter() {
 		return highCounter;
 	}
@@ -194,7 +193,7 @@ public class DoublyLinkedList {
 	public int getLowCounter() {
 		return lowCounter;
 	}
-	
+
 	public void setHighCounter(int highCounter) {
 		this.highCounter = highCounter;
 	}

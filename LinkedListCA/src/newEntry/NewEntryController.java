@@ -89,19 +89,27 @@ public class NewEntryController implements WindowListener, ActionListener {
 
 			//changes number of entries in daybox according to selected month
 		} else if (e.getActionCommand().equals("setDay")) {
-			String month = view.getMonth();
+			int month = view.getMonth();
 			view.setDayBox(month);
 
-		//handling register button
+			//handling register button
 		} else if (e.getActionCommand().equals("register")) {
-			//shows error msg if any field in the view is not filled, creates a new Person object otherwise
-			if (!view.isFilled()) {
+										
+			if (!view.isFilled()) {								//shows error msg if any field in the view is not filled, creates a new Person object otherwise
 				view.getErrorLbl().setForeground(Color.RED);
 				view.getErrorLbl().setText("Please, complete all fields.");
-				//treating the data in the frame	
-			} else {
-				Person person = model.newRegister(view.getFName(), view.getLName(), view.getPassport(), view.getPriority());
-				if(!this.model.registerInDatabase(person)) {		//triggered if there's already a register with the same passport in the database 
+
+			} else {																		//treating the data in the frame	
+
+				String date = view.getDay() + "/" + view.getMonth() + "/" + view.getYear();
+				Person person = model.newRegister(view.getFName(), view.getLName(), view.getPassport(), view.getPriority(), date);
+
+				 if(person.getfName().length() > 20 || person.getlName().length() > 20 || 
+						 person.getPassport().length() > 10) { 								//verifying if textboxes have valid number of characters
+					view.getErrorLbl().setForeground(Color.RED);
+					view.getErrorLbl().setText("Invalid number of characters in text box.");
+					
+				}else if (!this.model.registerInDatabase(person)) {		//triggered if there's already a register with the same passport in the database 
 					JOptionPane.showMessageDialog(this.view, "There is a register for this passport already!.",
 							"Double Entry.",  JOptionPane.ERROR_MESSAGE);
 				} else {
@@ -111,7 +119,7 @@ public class NewEntryController implements WindowListener, ActionListener {
 					new FrontPageController(this.list);
 				}
 			}
-		//cancel button	
+			//cancel button	
 		} else {
 			this.view.dispose();
 			new FrontPageController(this.list);

@@ -29,7 +29,7 @@ public class NewEntryModel {
 	 * 
 	 * @see		NewEntryView, NewEntryController, DoublyLinkedList, Person
 	 */
-	public Person newRegister(String fName, String lName, String passport, int priority) {
+	public Person newRegister(String fName, String lName, String passport, int priority, String date) {
 		String id = "";
 		switch (priority) {
 			case 1:
@@ -43,7 +43,7 @@ public class NewEntryModel {
 				break;
 		}
 		
-		Person person = new Person(fName, lName, passport, priority, id);
+		Person person = new Person(fName, lName, passport, priority, id, date);
 		
 		return person;
 	}
@@ -59,7 +59,7 @@ public class NewEntryModel {
 	 */
 	public boolean registerInDatabase(Person person) {
 		DbConnector db = new DbConnector();
-		if(db.insertNewPerson(person)) {
+		if(db.insertNewPerson(person, list)) {
 			return true;
 		}
 		return false;

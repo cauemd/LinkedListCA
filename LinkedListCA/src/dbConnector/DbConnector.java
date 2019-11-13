@@ -58,11 +58,11 @@ public class DbConnector {
 	 *
 	 * @see		NewEntryView, NewEntryController, DoublyLinkedList, Person
 	 */
-	public boolean insertNewPerson(Person person) {
+	public boolean insertNewPerson(Person person, DoublyLinkedList list) {
 		PreparedStatement stmt = null;
 
-		//verifying if user already exists
 		try {
+			//verifying if user already exists
 			String query = "SELECT * FROM appointments WHERE passport = ?;";
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, person.getPassport());
@@ -72,16 +72,35 @@ public class DbConnector {
 			}	
 
 			//inserting user into the database
-			query = "INSERT INTO appointments (id, fName, lName, passport, priority) VALUES (?, ?, ?, ?, ?);";
+			query = "INSERT INTO appointments (id, fName, lName, passport, priority, arrivalDate) VALUES (?, ?, ?, ?, ?, ?);";
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, person.getID());
 			stmt.setString(2, person.getfName());
 			stmt.setString(3, person.getlName());
 			stmt.setString(4, person.getPassport());
-			stmt.setDouble(5, person.getPriority());
+			stmt.setInt(5, person.getPriority());
+			stmt.setString(6, person.getArrivalDate());
+			stmt.executeUpdate();
+			
+			
+			//updating the number of total appointments
+			switch (person.getPriority()) {
+				case 1:
+					query = "UPDATE totalapp SET highPriority = highPriority + 1 WHERE id = 1";
+				//	list.setHighCounter(list.getHighCounter() + 1);
+					break;
+				case 2:
+					query = "UPDATE totalapp SET mediumPriority = mediumPriority + 1 WHERE id = 1";
+				//	list.setMediumCounter(list.getMediumCounter() + 1);
+					break;
+				default:
+					query = "UPDATE totalapp SET lowPriority = lowPriority + 1 WHERE id = 1";
+				//	list.setLowCounter(list.getLowCounter() + 1);
+			}
+			
+			stmt = conn.prepareStatement(query);
 			stmt.executeUpdate();
 			return true;
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -100,28 +119,25 @@ public class DbConnector {
 	public void loadList(DoublyLinkedList list) {
 		PreparedStatement stmt = null;
 		try {
-			//Getting data from database
+			//Getting appointments data from database
 			String query = "SELECT * FROM appointments;";
 			stmt = conn.prepareStatement(query);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				int priority = rs.getInt("priority");
-				//increasing the total count of appointments
-				switch (priority) {
-				case 1:
-					list.setHighCounter(list.getHighCounter() + 1);
-					break;
-				case 2:
-					list.setMediumCounter(list.getMediumCounter() + 1);
-					break;
-				default:
-					list.setLowCounter(list.getLowCounter() + 1);
-				}
-				//increasing the priority 
-				Person person = new Person(rs.getString("fName"), rs.getString("lName"), rs.getString("passport"), priority, rs.getString("id"));
+				Person person = new Person(rs.getString("fName"), rs.getString("lName"), rs.getString("passport"), rs.getInt("priority"), rs.getString("id"), 
+						rs.getString("arrivalDate"));
 				list.add(person);
 			}
-
+			
+			//getting total appointments of each priority
+			query = "SELECT * FROM totalapp WHERE id = 1";
+			stmt = conn.prepareStatement(query);
+			rs = stmt.executeQuery();
+			rs.next();
+			list.setHighCounter(rs.getInt("highPriority"));
+			list.setMediumCounter(rs.getInt("mediumPriority"));
+			list.setLowCounter(rs.getInt("lowPriority"));
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

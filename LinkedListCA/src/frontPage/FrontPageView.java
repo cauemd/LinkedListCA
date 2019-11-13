@@ -43,7 +43,7 @@ public class FrontPageView extends JFrame {
 		this.add(titleLbl, c);
 		c.ipady = 25;
 		c.ipadx = 20;
-		JButton loginBt = new JButton("Check Registration");
+		JButton loginBt = new JButton("Check/Delete Registration");
 		loginBt.setActionCommand("checkInfo");
 		loginBt.addActionListener(controller);
 		c.gridy = 1;
@@ -53,18 +53,18 @@ public class FrontPageView extends JFrame {
 		newCustBt.addActionListener(controller);
 		c.gridy = 2;
 		this.add(newCustBt, c);
-		JButton checkMediaBt = new JButton("Delete Registration");
-		checkMediaBt.setActionCommand("deleteEntry");
+		JButton checkMediaBt = new JButton("View All Registration");
+		checkMediaBt.setActionCommand("viewAll");
 		checkMediaBt.addActionListener(controller);
 		c.gridy = 3;
 		this.add(checkMediaBt, c);
-		JButton viewAllBt = new JButton("View All Registration");
-		viewAllBt.setActionCommand("viewAll");
+		JButton viewAllBt = new JButton("Clear Last Entries");
+		viewAllBt.setActionCommand("deleteLast");
 		viewAllBt.addActionListener(controller);
 		c.gridy = 4;
 		this.add(viewAllBt, c);
-		JButton addMediaBt = new JButton("Clear Last Entries");
-		addMediaBt.setActionCommand("deleteLast");
+		JButton addMediaBt = new JButton("Close Program");
+		addMediaBt.setActionCommand("close");
 		addMediaBt.addActionListener(controller);
 		c.gridy = 5;
 		this.add(addMediaBt, c);
@@ -75,7 +75,7 @@ public class FrontPageView extends JFrame {
 	}
 
 	/**
-	 *	Sets main visual aspects for the frame.
+	 *	Sets the title, visibility and size of the frame. Also stops the user for being able to resize the frame.
 	 */
 	private void settings() {
 		this.setTitle("Immigration System");

@@ -68,6 +68,7 @@ public class SearchPageController implements ActionListener, WindowListener{
 				this.view.setFirstNameLbl(person.getfName());
 				this.view.setLastNameLbl(person.getlName());
 				this.view.setPassportLbl(person.getPassport());
+				this.view.setDateLbl(person.getArrivalDate());
 			} else {													//shows error dialog if ID can't be found
 				JOptionPane.showMessageDialog(this.view, "There is no appointment that matches the ID you are looking for!",
 						"ID not found",  JOptionPane.ERROR_MESSAGE);	
@@ -75,10 +76,14 @@ public class SearchPageController implements ActionListener, WindowListener{
 			}
 		} else if (e.getActionCommand().equals("cancelApt")) {		//cancel appointment button
 			if (!this.aptID.equals("")) {
-				this.model.removeNode(this.aptID);
-				JOptionPane.showMessageDialog(this.view, "Appointment Deleted!");
-				this.view.dispose();
-				new FrontPageController(list);
+				int n = JOptionPane.showConfirmDialog(this.view, "Are you sure you want to cancel appointment " + aptID + "?", "Confirming cancelation",
+					    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if (n == 0) {
+					this.model.removeNode(this.aptID);
+					JOptionPane.showMessageDialog(this.view, "Appointment Deleted!");
+					this.view.dispose();
+					new FrontPageController(list);
+				}
 			}
 		}
 	}
