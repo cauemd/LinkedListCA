@@ -11,12 +11,10 @@ import person.Person;
 
 public class SearchPageModel {
 
-	private SearchPageController controller;
 	private DoublyLinkedList list;
 
 	//constructs a instance to work as the model of the search node feature
-	public SearchPageModel(SearchPageController controller, DoublyLinkedList list) {
-		this.controller = controller;
+	public SearchPageModel(DoublyLinkedList list) {
 		this.list = list;
 	}
 

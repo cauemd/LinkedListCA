@@ -10,9 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Calendar;
-import java.util.Date;
-
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import doublyList.DoublyLinkedList;
@@ -27,7 +24,7 @@ public class NewEntryController implements WindowListener, ActionListener {
 	private DoublyLinkedList list;
 
 	public NewEntryController(DoublyLinkedList list) {
-		this.model = new NewEntryModel(this, list);
+		this.model = new NewEntryModel(list);
 		this.view = new NewEntryView(this);
 		this.list = list;
 	}

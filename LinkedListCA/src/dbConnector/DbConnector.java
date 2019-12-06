@@ -23,7 +23,7 @@ public class DbConnector {
 			// Load the database driver
 			Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance() ;
 
-			String dbServer = "jdbc:mysql://localhost:3306/appointmentSystem?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+			String dbServer = "jdbc:mysql://localhost:3307/appointmentSystem?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 			String user = "root";
 			String password = "";
 

@@ -11,8 +11,6 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 //Front Page View, has the main functionalities of the application
 public class FrontPageView extends JFrame {

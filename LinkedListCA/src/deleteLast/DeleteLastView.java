@@ -16,8 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import frontPage.FrontPageController;
-
 public class DeleteLastView extends JFrame {
 	
 	private DeleteLastController controller;

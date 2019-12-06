@@ -10,11 +10,9 @@ import person.Person;
 
 public class NewEntryModel {
 	
-	private NewEntryController controller;
 	private DoublyLinkedList list;
 	
-	public NewEntryModel(NewEntryController controller, DoublyLinkedList list) {
-		this.controller = controller;
+	public NewEntryModel(DoublyLinkedList list) {
 		this.list = list;
 	}
 

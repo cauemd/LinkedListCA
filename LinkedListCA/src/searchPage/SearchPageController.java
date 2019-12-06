@@ -26,7 +26,7 @@ public class SearchPageController implements ActionListener, WindowListener{
 	//constructs a instance to work as the controller of the search node feature
 	public SearchPageController(DoublyLinkedList list) {
 		this.list = list;
-		this.model = new SearchPageModel(this, list);
+		this.model = new SearchPageModel(list);
 		this.view = new SearchPageView(this);
 	}
 
